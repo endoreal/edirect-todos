@@ -1,0 +1,108 @@
+
+<nz-card style="width: 100%;" nzTitle="Card title" [nzExtra]="extraTemplate">
+
+  <nz-spin nzSize="large" [nzSpinning]="loading">
+
+    <div class="loading-container">
+
+      <nz-collapse *ngIf="!loading">
+
+        <nz-collapse-panel nzHeader="To Do" [nzExtra]="todoTab">
+
+          <div nz-row [nzGutter]="[16, 16]">
+
+            <div nz-col [nzSpan]="8" *ngFor="let task of toDoTasks; trackBy: trackTask">
+
+              <edirect-task [task]="task" (OnComplete)="toggleTask(task._id, $event)" (OnDelete)="deleteTask(task._id)"></edirect-task>
+
+            </div>
+
+          </div>
+
+        </nz-collapse-panel>
+
+        <nz-collapse-panel nzHeader="Done" [nzExtra]="doneTab">
+
+          <div nz-row [nzGutter]="[16, 16]">
+
+            <div nz-col [nzSpan]="8" *ngFor="let task of doneTasks; trackBy:track">
+
+              <edirect-task [task]="task" (OnComplete)="toggleTask(task._id, $event)" (OnDelete)="deleteTask(task._id)"></edirect-task>
+
+            </div>
+
+          </div>
+
+        </nz-collapse-panel>
+
+      </nz-collapse>
+
+    </div>
+
+  </nz-spin>
+
+</nz-card>
+
+<ng-template #todoTab>
+  <nz-badge *ngIf="toDoTasks; else iconTemplate" nzStandalone nzShowZero [nzCount]="toDoTasks.length"></nz-badge>
+</ng-template>
+
+<ng-template #doneTab>
+  <nz-badge *ngIf="doneTasks; else iconTemplate" nzStandalone nzShowZero [nzCount]="doneTasks.length"></nz-badge>
+</ng-template>
+
+<ng-template #iconTemplate>
+  <i nz-icon nzType="loading" class="ant-scroll-number-custom-component"></i>
+</ng-template>
+
+<ng-template #extraTemplate>
+  <a nz-button nzType="link">Edit</a>
+  <a nz-button nzType="link">Delete</a>
+  <button (click)="addTask(tplTitle, tplContent, tplFooter)" nz-button nzType="primary">Add Task</button>
+</ng-template>
+
+<!-- Create Task Modal -->
+
+<ng-template #tplTitle>
+  <span>Create New Task</span>
+</ng-template>
+
+<ng-template #tplContent>
+
+  <form nz-form nzLayout="vertical">
+
+    <nz-form-item>
+      <nz-form-label nzFor="name">Title</nz-form-label>
+      <nz-form-control>
+        <input nz-input [(ngModel)]="taskName" placeholder="Title" name="name" nzSize="large" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="description">Description</nz-form-label>
+      <nz-form-control>
+        <textarea
+          nz-input
+          name="description"
+          placeholder="Description"
+          [(ngModel)]="taskDescription"
+          [nzAutosize]="{ minRows: 2, maxRows: 4 }"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="date">Title</nz-form-label>
+      <nz-form-control>
+        <nz-date-picker nzShowTime nzSize="large" [(ngModel)]="taskDate" name="date"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</ng-template>
+
+<ng-template #tplFooter let-ref="modalRef">
+  <button nz-button (click)="cancelTask(ref)">Cancel</button>
+  <button nz-button nzType="primary" (click)="submitTask(ref)" [nzLoading]="tplModalButtonLoading">Create</button>
+</ng-template>

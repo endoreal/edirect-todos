@@ -1,0 +1,120 @@
+<!-- Full Version -->
+
+<div *ngIf="shellType === 'full'" class="app-main-wrapper-full flex-fill flex-row">
+
+  <nz-layout class="layout ant-layout-has-sider">
+
+
+
+    <!-- Main -->
+    <nz-layout class="right-layout">
+
+      <!-- Header -->
+      <nz-header>
+        <nz-space  class="header-content">
+          <nz-space-item>
+
+          </nz-space-item>
+        </nz-space>
+
+        <nz-space>
+          <nz-space-item>
+
+            <div nz-row nzAlign="middle" nz-dropdown #userDrop="nzDropdown" [nzDropdownMenu]="userMenu"
+              nzPlacement="bottomRight" nzTrigger="click" class="mr-2 pointer">
+              <nz-avatar nzIcon="user" class="mr-1"></nz-avatar>
+              <span class="fs-16 bold mr-2">{{currentUserName}}</span>
+              <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+            </div>
+
+            <nz-dropdown-menu #userMenu="nzDropdownMenu" >
+              <ul nz-menu class="py-1 user-menu-dropdown">
+
+                <li class="user-pane" nzAlign="middle">
+                  <nz-avatar nzIcon="user" class="mr-1"></nz-avatar>
+                  <span class="bold">{{currentUserName}}</span>
+                </li>
+
+                <nz-divider class="my-1"></nz-divider>
+
+                <li nz-menu-group nzTitle="{{ 'header.userMenu.language' | translate }}" class="fs-12"></li>
+                <li nz-submenu [nzTitle]="langTmp">
+                  <ul>
+                    <li nz-menu-item *ngFor="let lang of languages" (click)="changeLang(lang.code)">
+                      <img class="language-flag-menu" [src]="flag(lang.code)" [alt]="language.label" />
+                      {{ lang.label }}
+                    </li>
+                  </ul>
+                </li>
+
+                <nz-divider class="my-1"></nz-divider>
+
+                <li nz-menu-item (click)="logout()">
+                  <i aria-hidden="true" nz-icon nzType="logout" nzTheme="outline"></i>
+                  {{'header.userMenu.logout' | translate}}
+                </li>
+              </ul>
+
+            </nz-dropdown-menu>
+          </nz-space-item>
+        </nz-space>
+      </nz-header>
+
+      <!-- Outlet -->
+      <nz-content>
+        <div class="outter-content" #scrollTarget>
+          <div class="inner-content flex-column">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </nz-content>
+
+      <nz-back-top [nzTarget]="scrollTarget"></nz-back-top>
+
+    </nz-layout>
+
+  </nz-layout>
+</div>
+
+<!-- Simple Version -->
+
+<div *ngIf="shellType === 'simple'" class="app-main-wrapper-simple flex-fill flex-row">
+
+  <div class="flex-fill flex-row">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="float-language">
+    <button nz-button nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzDropdownMenu]="menu" nzSize="large">
+      <img class="language-flag" [src]="flag(language.code)" [alt]="language.label" />
+      <span>{{ language.label }}</span>
+      <i aria-hidden="true" nz-icon nzType="down"></i>
+    </button>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item *ngFor="let lang of languages" (click)="changeLang(lang.code)">
+          <img class="language-flag" [src]="flag(lang.code)" [alt]="language.label" />
+          {{ lang.label }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+
+</div>
+
+<!-- Drop Down Language Template -->
+
+<ng-template #langTmp>
+  <img nz-col class="language-flag-menu" [src]="flag(language.code)" [alt]="language.label" />
+  <span nz-col>{{ language.label }}</span>
+</ng-template>
+
+<!-- Full Page Loader -->
+
+<div class="shell-loader" *ngIf="isLoading | async" [@fadeInOut]>
+  <nz-spin nzSimple [nzIndicator]="indicatorTemplate"> </nz-spin>
+  <ng-template #indicatorTemplate>
+    <i aria-hidden="true" nz-icon [nzType]="'sync'" [nzSpin]="true" class="custom-shell-spinner"></i>
+  </ng-template>
+</div>

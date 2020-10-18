@@ -1,0 +1,31 @@
+export const HTTPCODEDESC: { [code: number]: string } = {
+  200: 'Ok',
+  201: 'Created',
+  202: 'Accepted',
+  204: 'No Content',
+  301: 'Moved Permanently',
+  302: 'Found',
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  403: 'Forbidden',
+  404: 'Not Found',
+  410: 'Gone',
+  412: 'Precondition Failed',
+  500: 'Internal Server Error',
+};
+
+export enum HTTPCODE {
+  OK = 200,
+  CREATED = 201,
+  ACCEPTED = 202,
+  NOCONTENT = 204,
+  MOVEDPERMANENTLY = 301,
+  FOUND = 302,
+  BADREQUEST = 400,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  NOTFOUND = 404,
+  GONE = 410,
+  PRECONDITIONFAILED = 412,
+  INTERNALSERVERERROR = 500,
+}

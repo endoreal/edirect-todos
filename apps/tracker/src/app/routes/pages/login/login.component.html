@@ -1,0 +1,101 @@
+
+<nz-space class="logo pos-absolute m-4" nzSize="middle">
+
+  <nz-space-item>
+    <img class="logo-img" src="assets/images/logo-512.png" alt="Tracker" />
+  </nz-space-item>
+
+</nz-space>
+
+<div class="flex-fill" nz-row>
+  <div class="d-flex justify-content-center" nz-col nzSpan="24" [nzLg]="{ span: 16, push: 8 }">
+    <nz-space nzDirection="horizontal">
+      <nz-space-item>
+        <app-inline-loader [isLoading]="isLoading">
+          <nz-card class="login-card">
+            <div class="login-form-container">
+              <h1 class="fs-36 mb-0 light">
+                Hello,
+              </h1>
+
+              <h2 class="mb-4 light">
+                log in to continue
+              </h2>
+
+              <form
+                nz-form
+                nzLayout="vertical"
+                [formGroup]="loginForm"
+                class="login-form flex-column"
+                (ngSubmit)="login()"
+              >
+                <nz-form-item>
+                  <nz-form-label>Email</nz-form-label>
+                  <nz-form-control [nzErrorTip]="userErrorTpl">
+                    <nz-input-group nzSize="large" [nzPrefix]="prefixUser">
+                      <input
+                        type="email"
+                        nz-input
+                        formControlName="email"
+                        placeholder="your@email.com"
+                        [readOnly]="isLoading"
+                      />
+
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label>Password</nz-form-label>
+                  <nz-form-control [nzErrorTip]="passErrorTpl">
+                    <nz-input-group nzSize="large" [nzPrefix]="prefixLock" [nzSuffix]="suffixTemplate">
+                      <input
+                        [type]="passwordVisible ? 'text' : 'password'"
+                        nz-input
+                        formControlName="password"
+                        placeholder="Password"
+                        [readOnly]="isLoading"
+                      />
+                    </nz-input-group>
+
+                  </nz-form-control>
+                </nz-form-item>
+
+                <button nz-button class="align-self-flex-end mt-4" [nzType]="'primary'" nzSize="large">
+                  Log in
+                </button>
+              </form>
+            </div>
+          </nz-card>
+        </app-inline-loader>
+      </nz-space-item>
+    </nz-space>
+  </div>
+</div>
+
+<ng-template #prefixUser><i nz-icon [nzType]="'user'"></i></ng-template>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    Please enter your email!
+  </ng-container>
+  <ng-container *ngIf="control.hasError('email')">
+    Please enter a valid email address!
+  </ng-container>
+</ng-template>
+
+<ng-template #prefixLock><i nz-icon nzType="lock" nzTheme="outline"></i></ng-template>
+
+<ng-template #passErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    Please enter your password!
+  </ng-container>
+</ng-template>
+
+<ng-template #suffixTemplate>
+  <i aria-hidden="true"
+    nz-icon
+    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+    (click)="passwordVisible = !passwordVisible"
+  ></i>
+</ng-template>

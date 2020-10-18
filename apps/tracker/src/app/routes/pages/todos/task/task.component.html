@@ -1,0 +1,22 @@
+
+<nz-card [nzTitle]="task.title" [nzExtra]="extraTemplate">
+
+  <p>{{task.description}}</p>
+
+</nz-card>
+
+<ng-template #extraTemplate>
+
+  <button (click)="toggleComplete()" nz-button nzType="default" nzShape="circle" class="mr-1">
+    <i nz-icon [nzType]="task.completed ? 'close' : 'check'"></i>
+  </button>
+
+  <button
+    nz-popconfirm
+    nzPopconfirmTitle="Are you sure delete this task?"
+    nzPopconfirmPlacement="bottom"
+    (nzOnConfirm)="deleteTask()"
+    nz-button nzType="primary" nzDanger nzShape="circle"><i nz-icon nzType="delete"></i>
+  </button>
+
+</ng-template>
